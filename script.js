@@ -2,12 +2,12 @@
     const formContainer = document.querySelector('.booking-form-container-unique');
     if (!formContainer) return;
 
-    const form = document.querySelector('form[name="submit-to-google-sheet"]'); // تم تغيير selector
+    const form = document.querySelector('form[name="submit-to-google-sheet"]');
     const statusDiv = formContainer.querySelector('#form-status');
-    const nameInput = formContainer.querySelector('#name-input'); 
+    const nameInput = formContainer.querySelector('#name-input');
 
     // ****** استبدل هذا الرابط برابط Google Apps Script الخاص بإرسال بيانات الحجز ******
-    const SUBMISSION_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXMRD3mhLydKBEsXDOe37nnqwRHyZBrYKs3nrkGRb1UD7TCzPc691pPhFYujwMOSgoaQ/exec'; 
+    const SUBMISSION_SCRIPT_URL = 'YOUR_SUBMISSION_SCRIPT_URL_HERE'; 
 
     // ****** استبدل هذا الرابط برابط Google Apps Script الجديد الذي سيجلب الجداول ******
     const SCHEDULE_FETCH_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGtEbxz9fyZ_LCJ5V80QlXSZNG7ZGZv8JIQXKcak0og-yyle_BpE3AVXTSI-AOXco/exec'; 
@@ -18,6 +18,8 @@
     const doctorSelect = formContainer.querySelector('#doctor-select');
     const timeInput = formContainer.querySelector('#time-input');
     
+    // **ملاحظة: هذا هو المفتاح.** نحتاج إلى نسخة أصلية من جميع خيارات الأطباء قبل أي فلترة.
+    // يتم أخذها مرة واحدة عند التحميل الأولي.
     const allDoctorOptions = Array.from(doctorSelect.options); 
 
     // عناصر البوب-أب
@@ -32,7 +34,7 @@
             { value: "09:00 AM", text: "09:15 AM", text: "09:15 صباحًا" }, { value: "09:30 AM", text: "09:30 صباحًا" }, { value: "09:45 AM", text: "09:45 صباحًا" },
             { value: "10:00 AM", text: "10:15 AM", text: "10:15 صباحًا" }, { value: "10:30 AM", text: "10:30 صباحًا" }, { value: "10:45 AM", text: "10:45 صباحًا" },
             { value: "11:00 AM", text: "11:15 AM", text: "11:15 صباحًا" }, { value: "11:30 AM", text: "11:30 صباحًا" }, { value: "11:45 AM", text: "11:45 صباحًا" },
-            { value: "12:00 PM", text: "12:00 ظهرًا" }, { value: "12:15 PM", text: "12:15 ظهرًا" }, { value: "12:30 PM", text: "12:30 ظهرًا" }, { value: "12:45 PM", text: "12:45 ظهرًا" },
+            { value: "12:00 PM", text: "12:15 PM", text: "12:15 ظهرًا" }, { value: "12:30 PM", text: "12:30 ظهرًا" }, { value: "12:45 PM", text: "12:45 ظهرًا" },
             { value: "01:00 PM", text: "01:15 PM", text: "01:15 ظهرًا" }, { value: "01:30 PM", text: "01:30 ظهرًا" }, { value: "01:45 PM", text: "01:45 ظهرًا" },
             { value: "02:00 PM", text: "02:15 PM", text: "02:15 ظهرًا" }, { value: "02:30 PM", text: "02:30 ظهرًا" }, { value: "02:45 PM", text: "02:45 ظهرًا" },
             { value: "03:00 PM", text: "03:15 PM", text: "03:15 ظهرًا" }, { value: "03:30 PM", text: "03:30 مساءً" }, { value: "03:45 PM", text: "03:45 مساءً" }
@@ -74,7 +76,7 @@
             { value: "11:00 AM", text: "11:15 AM", text: "11:15 صباحًا" }, { value: "11:30 AM", text: "11:30 صباحًا" }, { value: "11:45 AM", text: "11:45 صباحًا" }
         ],
         "Evening_4PM_10PM": [
-            { value: "04:00 PM", text: "04:00 مساءً" }, { value: "04:15 PM", text: "04:15 مساءً" }, { value: "04:30 PM", text: "04:30 مساءً" }, { value: "04:45 PM", text: "04:45 مساءً" },
+            { value: "04:00 PM", text: "04:15 PM", text: "04:15 مساءً" }, { value: "04:30 PM", text: "04:30 مساءً" }, { value: "04:45 PM", text: "04:45 مساءً" },
             { value: "05:00 PM", text: "05:15 PM", text: "05:15 مساءً" }, { value: "05:30 PM", text: "05:30 مساءً" }, { value: "05:45 PM", text: "05:45 مساءً" },
             { value: "06:00 PM", text: "06:15 PM", text: "06:15 مساءً" }, { value: "06:30 PM", text: "06:30 مساءً" }, { value: "06:45 PM", text: "06:45 مساءً" },
             { value: "07:00 PM", text: "07:15 PM", text: "07:15 مساءً" }, { value: "07:30 PM", text: "07:30 مساءً" }, { value: "07:45 PM", text: "07:45 مساءً" },
@@ -99,19 +101,22 @@
     // دالة لفلترة الأطباء بناءً على العيادة المختارة
     function filterDoctors() {
         const selectedClinic = clinicSelect.value;
-        doctorSelect.innerHTML = '';
+        doctorSelect.innerHTML = ''; // مسح الخيارات الحالية
 
         const firstOption = allDoctorOptions.find(option => option.disabled);
         doctorSelect.appendChild(firstOption);
         firstOption.textContent = '-- اختر الطبيب --';
         firstOption.selected = true;
 
+        // **هنا يتم فلترة الأطباء**
         allDoctorOptions.forEach(option => {
+            // هذا الشرط يتحقق من أن الطبيب ينتمي للعيادة المختارة
             if (option.dataset.clinic === selectedClinic) {
                 doctorSelect.appendChild(option);
             }
         });
         
+        // إعادة ضبط التاريخ والوقت بعد تغيير العيادة
         setupDatePicker(); 
         updateAvailableTimes(); 
     }
@@ -126,7 +131,9 @@
         initialDefaultOption.textContent = '-- الرجاء اختيار العيادة أولاً --';
         doctorSelect.appendChild(initialDefaultOption);
 
-        filterDoctors();
+        // **في هذه الدالة، بعد إعادة تعيين القائمة، يتم استدعاء filterDoctors()**
+        // والتي بدورها ستجعل قائمة الأطباء فارغة (عدا الخيار الافتراضي) إذا لم يتم اختيار عيادة بعد.
+        filterDoctors(); 
         setupDatePicker();
     }
 
