@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام حجز مواعيد طبية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+
+<div class="booking-form-container-unique">
+    <h1>حجز موعد</h1>
+    <form name="submit-to-google-sheet">
+        <div class="form-field">
+            <label for="name-input">الاسم الثلاثي</label>
+            <input id="name-input" name="الاسم" type="text" placeholder="ادخل اسمك" required>
+        </div>
+        <div class="form-field">
+            <label for="phone-input">رقم الجوال</label>
+            <input id="phone-input" name="رقم_الجوال" type="tel" placeholder="05xxxxxxxx" required pattern="^05[0-9]{8}$">
+        </div>
+
+        <div class="form-field">
+            <label for="clinic-select">اختر العيادة المناسبة</label>
+            <select id="clinic-select" name="العيادة" required>
+                <option value="" disabled selected>-- اختر العيادة --</option>
+                <option value="عيادة طب الأسرة">عيادة طب الأسرة</option>
+                <option value="قسم النساء والولادة">قسم النساء والولادة</option>
+                <option value="قسم الأطفال">قسم الأطفال</option>
+                <option value="الصيدلية الداخلية">الصيدلية الداخلية</option>
+                <option value="عناية مركزة">عناية مركزة</option>
+                <option value="عيادة الأمراض الصدرية">عيادة الأمراض الصدرية</option>
+                <option value="عيادة الانف والأذن والحنجرة">عيادة الانف والأذن والحنجرة</option>
+                <option value="عيادة التخدير">عيادة التخدير</option>
+                <option value="عيادة الطب العام">عيادة الطب العام</option>
+                <option value="قسم العظام">قسم العظام</option>
+                <option value="عيادة المخ و الأعصاب">عيادة المخ و الأعصاب</option>
+                <option value="عيادات الباطنية و الغدد الصماء">عيادات الباطنية و الغدد الصماء</option>
+                <option value="عيادات الباطنية ومناظير الجهاز الهضمي">عيادات الباطنية ومناظير الجهاز الهضمي</option>
+                <option value="عيادات الجلدية والتجميل">عيادات الجلدية والتجميل</option>
+                <option value="عيادات الكلى">عيادات الكلى</option>
+                <option value="قسم الأشعة">قسم الأشعة</option>
+                <option value="قسم الاسنان">قسم الاسنان</option>
+                <option value="قسم الجراحة العامة">قسم الجراحة العامة</option>
+                <option value="قسم الطوارئ">قسم الطوارئ</option>
+                <option value="قسم القلب والقسطرة القلبية">قسم القلب والقسطرة القلبية</option>
+                <option value="قسم المختبر">قسم المختبر</option>
+                <option value="قسم المسالك البولية">قسم المسالك البولية</option>
+                <option value="مركز العلاج الطبيعي">مركز العلاج الطبيعي</option>
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="doctor-select">اختر الطبيب</label>
+            <select id="doctor-select" name="الدكتور" required>
+                <option value="" disabled selected>-- الرجاء اختيار العيادة أولاً --</option>
+                <option value="د. مشبب القحطاني" data-clinic="عيادة طب الأسرة">د. مشبب القحطاني</option>
+                <option value="د.عبدالرحمن الحارثي" data-clinic="عناية مركزة">د.عبدالرحمن الحارثي</option>
+                <option value="د.صلاح بن محمد التويجري" data-clinic="قسم الأشعة">د.صلاح بن محمد التويجري</option>
+                <option value="د.محمد إبراهيم المقحم" data-clinic="عيادات الباطنية و الغدد الصماء">د.محمد إبراهيم المقحم</option>
+                <option value="د.حيدر الشرفا" data-clinic="عيادات الباطنية ومناظير الجهاز الهضمي">د.حيدر الشرفا</option>
+                <option value="د.سلمان آختر" data-clinic="قسم الجراحة العامة">د.سلمان آختر</option>
+                <option value="د.رحيل أحمد" data-clinic="عيادة الانف والأذن والحنجرة">د.رحيل أحمد</option>
+                <option value="د.عزت الشابوري" data-clinic="قسم العظام">د.عزت الشابوري</option>
+                <option value="د.محمد جلال السنوسي" data-clinic="قسم الأطفال">د.محمد جلال السنوسي</option>
+                <option value="د.أحمد مصطفي عبداللطيف" data-clinic="عيادة المخ و الأعصاب">د.أحمد مصطفي عبداللطيف</option>
+                <option value="د.إبراهيم سيد عامر" data-clinic="قسم المسالك البولية">د.إبراهيم سيد عامر</option>
+                <option value="د.حبيب ردمان" data-clinic="قسم النساء والولادة">د.حبيب ردمان</option>
+                <option value="د.هشام عبدالعزيز" data-clinic="قسم المختبر">د.هشام عبدالعزيز</option>
+                <option value="د.عبدالرحيم عبده علي" data-clinic="قسم الطوارئ">د.عبدالرحيم عبده علي</option>
+                <option value="د.إيهاب الدسوقي" data-clinic="قسم العظام">د.إيهاب الدسوقي</option>
+                <option value="د.أفشين علي ميمون" data-clinic="قسم النساء والولادة">د.أفشين علي ميمون</option>
+                <option value="د.سلمي الزين عبداللطيف" data-clinic="قسم النساء والولادة">د.سلمي الزين عبداللطيف</option>
+                <option value="د.أحمد حسن مصطفي" data-clinic="قسم القلب والقسطرة القلبية">د.أحمد حسن مصطفي</option>
+                <option value="د.أبو سيف عبدالحميد" data-clinic="عيادة التخدير">د.أبو سيف عبدالحميد</option>
+                <option value="د.آلاء محمد عبدالفتاح" data-clinic="عيادة التخدير">د.آلاء محمد عبدالفتاح</option>
+                <option value="د.محمود الغنيمي" data-clinic="قسم الجراحة العامة">د.محمود الغنيمي</option>
+                <option value="د.أحمد زين محمد" data-clinic="قسم الأطفال">د.أحمد زين محمد</option>
+                <option value="د.مني محمد" data-clinic="قسم الأطفال">د.مني محمد</option>
+                <option value="د.نبيلة السيد موسى" data-clinic="قسم النساء والولادة">د.نبيلة السيد موسى</option>
+                <option value="د.محمود حمدي الشال" data-clinic="عيادات الكلى">د.محمود حمدي الشال</option>
+                <option value="د.مؤمن عبدالعاطي" data-clinic="قسم الأشعة">د.مؤمن عبدالعاطي</option>
+                <option value="د.محمود أحمد أبو هندي" data-clinic="قسم الأشعة">د.محمود أحمد أبو هندي</option>
+                <option value="د.طارق عبدالحميد" data-clinic="عناية مركزة">د.طارق عبدالحميد</option>
+                <option value="د.مصطفي عبدالله السيد" data-clinic="عناية مركزة">د.مصطفي عبدالله السيد</option>
+                <option value="د.يحيي عطوي" data-clinic="عيادة الانف والأذن والحنجرة">د.يحيي عطوي</option>
+                <option value="د.نانسي فوزي خليل" data-clinic="عيادات الباطنية و الغدد الصماء">د.نانسي فوزي خليل</option>
+                <option value="د.أحمد بخاطرة دوير" data-clinic="قسم القلب والقسطرة القلبية">د.أحمد بخاطرة دوير</option>
+                <option value="د.نديم إسماعيل الأمام" data-clinic="قسم العظام">د.نديم إسماعيل الأمام</option>
+                <option value="د.رحاب عطية متولي" data-clinic="قسم النساء والولادة">د.رحاب عطية متولي</option>
+                <option value="د.عبدالله حميد الطويرقي" data-clinic="الصيدلية الداخلية">د.عبدالله حميد الطويرقي</option>
+                <option value="د.أحمد عماد" data-clinic="عيادة التخدير">د.أحمد عماد</option>
+                <option value="د.مني علي عبدالعظيم" data-clinic="قسم الطوارئ">د.مني علي عبدالعظيم</option>
+                <option value="د.عبدالحميد حسن" data-clinic="قسم الاسنان">د.عبدالحميد حسن</option>
+                <option value="د.أمل نصر سعد" data-clinic="قسم الاسنان">د.أمل نصر سعد</option>
+                <option value="د.أسامة جبر" data-clinic="قسم الاسنان">د.أسامة جبر</option>
+                <option value="د.زينب عوض إبراهيم" data-clinic="قسم النساء والولادة">د.زينب عوض إبراهيم</option>
+                <option value="د.قرة العين نافيد" data-clinic="عيادات الجلدية والتجميل">د.قرة العين نافيد</option>
+                <option value="د.سهيلة صبري محمد" data-clinic="عيادة التخدير">د.سهيلة صبري محمد</option>
+                <option value="د.زيزي مصطفى" data-clinic="قسم الأطفال">د.زيزي مصطفى</option>
+                <option value="د.حاتم عباس عثمان" data-clinic="قسم العظام">د.حاتم عباس عثمان</option>
+                <option value="د.هبه مصطفي نجم" data-clinic="عيادة الأمراض الصدرية">د.هبه مصطفي نجم</option>
+                <option value="د.وجدان الخليدي" data-clinic="عيادة الطب العام">د.وجدان الخليدي</option>
+                <option value="د.سماح محمد زروق" data-clinic="عيادة الطب العام">د.سماح محمد زروق</option>
+                <option value="د.خالد العصيمي" data-clinic="مركز العلاج الطبيعي">د.خالد العصيمي</option>
+                <option value="د.باسل محمد إسماعيل" data-clinic="مركز العلاج الطبيعي">د.باسل محمد إسماعيل</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label for="date-input">اختر التاريخ</label>
+                <input id="date-input" name="التاريخ" type="date" required>
+                <div id="date-error" class="error-message"></div>
+            </div>
+            <div class="form-field">
+                <label for="time-input">اختر الوقت</label>
+                <select id="time-input" name="الوقت" required>
+                    <option value="" disabled selected>-- اختر --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-field">
+            <button type="submit">احجز الآن</button>
+        </div>
+    </form>
+    <div id="form-status"></div>
+</div>
+
+<div class="popup-overlay" id="successPopup">
+    <div class="popup-content">
+        <span class="close-btn" id="closePopupBtn">&times;</span>
+        <h2 id="popupTitle"></h2>
+        <p>تم إنشاء طلب حجز موعد. سنتواصل معك قريباً لتأكيد الحجز.</p>
+        <p>لإدارة مواعيدك، حمل التطبيق:</p>
+        <a href="https://daralshefa.com.sa/mobile-application/" target="_blank">حمل التطبيق الآن</a>
+        <p class="whatsapp-link">أو للتواصل مع مركز الاتصال بالمستشفى عبر واتس اب: <a href="https://wa.me/966536139693" target="_blank">اضغط هنا</a></p>
+    </div>
+</div>
+
+<script src="script.js"></script> </body>
+</html>
