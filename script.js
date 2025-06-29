@@ -7,7 +7,7 @@
     const nameInput = formContainer.querySelector('#name-input');
 
     // ****** استبدل هذا الرابط برابط Google Apps Script الخاص بإرسال بيانات الحجز ******
-    const SUBMISSION_SCRIPT_URL = 'YOUR_SUBMISSION_SCRIPT_URL_HERE'; 
+    const SUBMISSION_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXMRD3mhLydKBEsXDOe37nnqwRHyZBrYKs3nrkGRb1UD7TCzPc691pPhFYujwMOSgoaQ/exec'; 
 
     // ****** استبدل هذا الرابط برابط Google Apps Script الجديد الذي سيجلب الجداول ******
     const SCHEDULE_FETCH_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGtEbxz9fyZ_LCJ5V80QlXSZNG7ZGZv8JIQXKcak0og-yyle_BpE3AVXTSI-AOXco/exec'; 
